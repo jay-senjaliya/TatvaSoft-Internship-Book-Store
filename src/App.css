@@ -25,3 +25,14 @@
   color: black;
 }
 
+.form-div {
+  width: 500px;
+  margin: 50px auto;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

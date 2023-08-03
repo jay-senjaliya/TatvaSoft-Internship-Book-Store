@@ -1,4 +1,4 @@
-import { Button, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import React from 'react'
 import {  useNavigate } from "react-router-dom";
 
@@ -13,13 +13,17 @@ const Home = () => {
   const handleHome = () => {
     navigate('/')
   }
+  const handleForm = () => {
+    navigate('/form')
+  }
   return (
     <div className='home-container'>
-      <Typography variant='h1' style={{"margin": "80px"}}>What you want to know? </Typography>
-      <div className='home-btn'>
+      {/* <Typography variant='h1' style={{"margin": "80px"}}>What you want to know? </Typography> */}
+      <div className='home-btn' style={{"marginTop": "50px"}}>
         <Button variant='contained' style={{"width": "150px"}} onClick={handleName}>Name</Button>
         <Button variant='contained' style={{"width": "150px"}} onClick={handlePrice}>Price</Button>
         <Button variant='contained' style={{"width": "150px"}} onClick={handleHome}>Home</Button>
+        <Button variant='contained' style={{"width": "150px"}} onClick={handleForm}>Form</Button>
       </div>
     </div>
   )
