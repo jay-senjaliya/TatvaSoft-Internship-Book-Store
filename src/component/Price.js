@@ -1,9 +1,10 @@
+import { Typography } from '@mui/material'
 import React from 'react'
 
 const Price = ({price}) => {
   return (
     <div>
-      <h1 style={{'textAlign': 'center'}}>The Price Of Book is: {price}</h1>
+      <Typography variant='h3' style={{'textAlign': 'center', "marginTop": "50px"}}>The Price Of Book is: {price}</Typography>
     </div>
   )
 }

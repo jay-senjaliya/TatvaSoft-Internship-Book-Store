@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Navbar from './component/Navbar';
 import Home from './component/Home';
 import Name from './component/Name';
 import Price from './component/Price';
@@ -17,7 +16,6 @@ function App() {
         <Route path='/book-price' element={<Price price={bookPrice} />} />
       </Routes>
     </Router>
-      {/* <Navbar /> */}
     </div>
   );
 }
