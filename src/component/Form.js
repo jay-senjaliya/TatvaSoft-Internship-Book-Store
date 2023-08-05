@@ -1,18 +1,49 @@
 import { Button, FormHelperText, TextField, Typography } from "@mui/material";
-import { ErrorMessage, Formik, Form} from "formik";
+import { ErrorMessage, Formik, Form } from "formik";
 import React from "react";
 import * as Yup from "yup";
+import { toast } from "react-toastify";
+import axios from "axios";
+import 'react-toastify/dist/ReactToastify.css'
 
 const Form1 = () => {
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is Reuired!!"),
-    email: Yup.string().email('Enter valid email!!').required("Email is Reuired!!"),
-    password: Yup.string().min(8, "password must be 8 character!!").required("Password is Reuired!!"),
-    age: Yup.number().min(18, "Age must be 18 or greter")
-  })
+    firstName: Yup.string().required("First Name is Reuired!!"),
+    lastName: Yup.string().required("Last Name is Reuired!!"),
+    email: Yup.string()
+      .email("Enter valid email!!")
+      .required("Email is Reuired!!"),
+    password: Yup.string()
+      .min(8, "password must be 8 character!!")
+      .required("Password is Reuired!!"),
+    roleId: Yup.number()
+      .min(1, "role ID must be positive.")
+      .required("Role ID is Reuired!!"),
+  });
 
-  const handleSubmit = () => {
-    console.log("form submitted")
+  const handleSubmit = async (values) => {
+    await axios
+      .post("https://book-e-sell-node-api.vercel.app/api/user", values)
+      .then((res) => {
+        // console.log(res.data);
+          toast.success("User Registered Successfully!", "bottom-right");          
+        
+      })
+      .catch((err) => {
+        toast.error("User Not Register!!", "bottom-right");
+        // console.log(err);
+      });
+
+    // console.log(values);
+    // await authService
+    //   .Register(values)
+    //   .then((res) => {
+    //     console.log(res);
+    //     toast.success("User Registered Successfully!", "botttom-right");
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
   return (
@@ -22,26 +53,45 @@ const Form1 = () => {
       </Typography>
       {/* Formik started */}
       <Formik
-        initialValues={{ name: "", email: "", age: "", password: "" }}
+        initialValues={{
+          firstName: "",
+          lastName: "",
+          email: "",
+          roleId: "",
+          password: "",
+        }}
         validationSchema={validationSchema}
-        onSubmit={(values) => handleSubmit()}
+        onSubmit={(values) => handleSubmit(values)}
       >
         {({ values, errors, handleBlur, setFieldValue }) => {
-          console.log("errors:", errors);
+          // console.log("errors:", errors);
           return (
             <Form className="form">
               <TextField
-                label="Name"
-                name="name"
+                label="First Name"
+                name="firstName"
                 variant="outlined"
-                value={values.name}
-                error={errors.name}
+                value={values.firstName}
+                error={errors.firstName}
                 onBlur={handleBlur}
-                onChange={(e) => setFieldValue("name", e.target.value)}
+                onChange={(e) => setFieldValue("firstName", e.target.value)}
                 style={{ margin: "10px" }}
               />
               <FormHelperText error>
-                <ErrorMessage name="name"></ErrorMessage>
+                <ErrorMessage name="firstName"></ErrorMessage>
+              </FormHelperText>
+              <TextField
+                label="Last Name"
+                name="lastName"
+                variant="outlined"
+                value={values.lastName}
+                error={errors.lastName}
+                onBlur={handleBlur}
+                onChange={(e) => setFieldValue("lastName", e.target.value)}
+                style={{ margin: "10px" }}
+              />
+              <FormHelperText error>
+                <ErrorMessage name="lastName"></ErrorMessage>
               </FormHelperText>
               <TextField
                 label="Email"
@@ -57,17 +107,17 @@ const Form1 = () => {
                 <ErrorMessage name="email"></ErrorMessage>
               </FormHelperText>
               <TextField
-                label="Age"
-                name="age"
+                label="Role ID"
+                name="roleId"
                 variant="outlined"
-                value={values.age}
-                error={errors.age}
+                value={values.roleId}
+                error={errors.roleId}
                 onBlur={handleBlur}
-                onChange={(e) => setFieldValue("age", e.target.value)}
+                onChange={(e) => setFieldValue("roleId", e.target.value)}
                 style={{ margin: "10px" }}
               />
               <FormHelperText error>
-                <ErrorMessage name="age"></ErrorMessage>
+                <ErrorMessage name="roleId"></ErrorMessage>
               </FormHelperText>
               <TextField
                 label="Password"
