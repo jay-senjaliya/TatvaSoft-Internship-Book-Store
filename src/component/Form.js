@@ -4,7 +4,7 @@ import React from "react";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
-import 'react-toastify/dist/ReactToastify.css'
+import "react-toastify/dist/ReactToastify.css";
 
 const Form1 = () => {
   const validationSchema = Yup.object().shape({
@@ -26,8 +26,7 @@ const Form1 = () => {
       .post("https://book-e-sell-node-api.vercel.app/api/user", values)
       .then((res) => {
         // console.log(res.data);
-          toast.success("User Registered Successfully!", "bottom-right");          
-        
+        toast.success("User Registered Successfully!", "bottom-right");
       })
       .catch((err) => {
         toast.error("User Not Register!!", "bottom-right");

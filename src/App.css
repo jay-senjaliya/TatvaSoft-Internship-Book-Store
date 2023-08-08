@@ -36,3 +36,8 @@
   align-items: center;
   flex-direction: column;
 }
+
+
+.btn:focus, .form-control:focus{
+  box-shadow: none !important;
+}
