@@ -4,7 +4,7 @@ const BASE_URL = "https://book-e-sell-node-api.vercel.app/api/user";
 
 class AuthService {
   Register = async (payload) => {
-    return axios.post(`${BASE_URL}/`, payload);
+    return axios.post(`${BASE_URL}`, payload);
   };
 
   Login = async (payload) => {

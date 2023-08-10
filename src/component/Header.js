@@ -6,9 +6,11 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import bookService from "../services/bookService";
-import { HttpStatusCode } from "axios";
+import AuthContext from "../context/authContext";
 
 function Header() {
+  const context = React.useContext(AuthContext);
+  const { signOut } = context;
   const [bookSearch, setBookSearch] = React.useState("");
   const [searchResultList, setSearchResultList] = React.useState([]);
   const navigate = useNavigate();
@@ -23,7 +25,8 @@ function Header() {
     toast.success("User Logged out successfully!", {
       position: "bottom-right",
     });
-    navigate("/");
+    signOut();
+    navigate("/ogin");
   };
 
   const handleSearch = async () => {
