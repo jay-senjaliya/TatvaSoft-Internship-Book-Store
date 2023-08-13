@@ -38,6 +38,11 @@
 }
 
 
-.btn:focus, .form-control:focus{
+.btn:focus, .form-control:focus, .form-select:focus{
+  border-color: #cacaca;
   box-shadow: none !important;
 }
+
+/* .MuiPagination-root  button:focus {
+    background-color: #f14d54 !important;
+ } */

@@ -10,24 +10,33 @@ import Header from "./component/Header";
 import Login from "./page/Login";
 import Footer from "./component/Footer";
 import Register from "./page/Register";
-import Auth from "./context/Auth";
+import { Auth, useAuthContext } from "./context/authContext";
 import Cookies from "js-cookie";
+import Books from "./page/BooksList";
 
 function App() {
-  // const navigate = useNavigate();
-  // const data = Cookies.get("userInfo");
-  // const user = data ? JSON.parse(data) : undefined;
+  const context = useAuthContext();
+  const { user } = context;
+  // console.log(user);
+  const navigate = useNavigate();
   return (
     <Auth>
       <div id="main">
         <Header />
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Home />} />
-          {/* <Route path="/book-name" element={<Name name={bookName} />} />
-            <Route path="/book-price" element={<Price price={bookPrice} />} /> */}
-          <Route path="/form" element={<Form />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/register" element={<Register />} />
+          <Route
+            exact
+            path="/books-list"
+            element={user ? <Books /> : navigate("/login")}
+          />
+          <Route
+            exact
+            path="/"
+            element={user ? <Home /> : navigate("/login")}
+          />
+          <Route exact path="/form" element={<Form />} />
         </Routes>
         <Footer />
         <ToastContainer />

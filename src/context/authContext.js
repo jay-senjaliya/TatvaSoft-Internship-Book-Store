@@ -1,54 +1,67 @@
-import React from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const AuthContext = React.createContext();
+const initialValues = {
+  id: 0,
+  email: "",
+  firstName: "",
+  lastName: "",
+  roleId: 0,
+  role: "",
+  password: "",
+};
 
-export default AuthContext;
+const initialState = {
+  setUser: () => {},
+  user: initialValues,
+  signOut: () => {},
+};
 
-// import Cookies from "js-cookie";
-// import React, { createContext, useState } from "react";
+export const AuthContext = createContext(initialState);
 
-// const initialValues = {
-//   id: 0,
-//   email: "",
-//   firstName: "",
-//   lastName: "",
-//   roleId: 0,
-//   role: "",
-//   password: "",
-// };
+export const Auth = ({ children }) => {
+  const [userData, setUserData] = useState(initialValues);
+  const navigate = useNavigate();
+  console.log(userData);
 
-// const initialState = {
-//   setUserData: () => {},
-//   user: initialValues,
-//   signOut: () => {},
-// };
+  const setUser = (data) => {
+    localStorage.setItem("userInfo", JSON.stringify(data));
+    setUserData(data);
+    console.log(data);
+  };
 
-// export const AuthContext = createContext(initialState);
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("userInfo"));
 
-// const Auth = (props) => {
-//   const [user, setUser] = useState();
+    if (!data) {
+      setUserData(initialValues);
+      navigate("/login");
+    } else {
+      setUserData(data);
+    }
+  }, []);
 
-//   const setUserData = (data) => {
-//     // console.log(data);
-//     setUser(data);
-//     console.log(user);
-//     Cookies.set("userInfo", JSON.stringify(data));
-//   };
+  const signOut = () => {
+    localStorage.removeItem("userInfo");
+    setUserData(initialValues);
+    navigate("/login");
+  };
 
-//   const signOut = () => {
-//     setUserData();
-//     Cookies.remove("userInfo");
-//   };
+  const value = {
+    user: userData,
+    setUser,
+    signOut,
+  };
 
-//   const value = {
-//     user,
-//     setUserData,
-//     signOut,
-//   };
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
 
-//   return (
-//     <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
-//   );
-// };
+export const useAuthContext = () => {
+  return useContext(AuthContext);
+};
 
-// export default Auth;
+// import React from "react";
+
+// const AuthContext = React.createContext();
+
+// export default AuthContext;

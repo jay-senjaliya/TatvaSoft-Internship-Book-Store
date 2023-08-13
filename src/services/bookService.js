@@ -6,6 +6,10 @@ class BookService {
   SearchBook = async (payload) => {
     return axios.get(`${BASE_URL}/search?keyword=${payload}`);
   };
+
+  GetAllBooks = async (params) => {
+    return axios.get(`${BASE_URL}`, { params });
+  };
 }
 
 // eslint-disable-next-line

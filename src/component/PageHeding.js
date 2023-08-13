@@ -5,7 +5,7 @@ const PageHeding = ({ heading }) => {
     <>
       <h1
         style={{
-          marginTop: 0,
+          marginTop: 50,
           marginBottom: 25,
           textAlign: "center",
           fontFamily: "'Roboto', sans-serif",

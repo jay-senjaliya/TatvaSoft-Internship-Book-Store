@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext, useState } from "react";
 import logo from "../img/Tatvasoft-logo-profile.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, Cart4 } from "react-bootstrap-icons";
@@ -6,32 +6,33 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import bookService from "../services/bookService";
-import AuthContext from "../context/authContext";
+import { AuthContext, useAuthContext } from "../context/authContext";
 
 function Header() {
-  const context = React.useContext(AuthContext);
-  const { signOut } = context;
-  const [bookSearch, setBookSearch] = React.useState("");
-  const [searchResultList, setSearchResultList] = React.useState([]);
+  const context = useAuthContext();
+  const { signOut, user } = context;
+  const [bookSearch, setBookSearch] = useState("");
+  const [searchResultList, setSearchResultList] = useState([]);
   const navigate = useNavigate();
-  const email = Cookies.get("auth_email");
+  // console.log(user);
+  const userInfo = user.email ? user : null;
+  // const email = Cookies.get("auth_email");
   // console.log(email);
-  React.useEffect(() => {
-    navigate("/");
-  }, [email]);
+  // React.useEffect(() => {
+  //   navigate("/");
+  // }, [user]);
 
   const handleLogOut = () => {
-    Cookies.remove("auth_email");
+    // Cookies.remove("auth_email");
     toast.success("User Logged out successfully!", {
       position: "bottom-right",
     });
     signOut();
-    navigate("/ogin");
   };
 
   const handleSearch = async () => {
     const payload = bookSearch;
-    console.log(bookSearch);
+    // console.log(bookSearch);
     await bookService
       .SearchBook(payload)
       .then((res) => {
@@ -39,7 +40,7 @@ function Header() {
         document.getElementById("overlay").style.display = "block";
       })
       .catch((err) => {
-        console.log(err.response);
+        // console.log(err.response);
         setSearchResultList([]);
         document.getElementById("overlay").style.display = "none";
       });
@@ -78,7 +79,7 @@ function Header() {
                 fontFamily: "'Roboto', sans-serif",
               }}
             >
-              {!email && (
+              {!userInfo && (
                 <>
                   <li className="nav-item">
                     <Link
@@ -105,7 +106,7 @@ function Header() {
                   </li>
                 </>
               )}
-              {email && (
+              {userInfo && (
                 <>
                   <li className="nav-item">
                     <Link
@@ -138,7 +139,7 @@ function Header() {
                   <li className="nav-item">
                     <Link
                       className="nav-link "
-                      to="#"
+                      to="/books-list"
                       style={{ color: "#f14d54" }}
                     >
                       Books
@@ -178,7 +179,7 @@ function Header() {
             </span>
             Cart
           </button>
-          {email && (
+          {userInfo && (
             <button
               className="btn "
               style={{

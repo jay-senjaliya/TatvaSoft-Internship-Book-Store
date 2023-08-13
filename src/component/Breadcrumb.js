@@ -12,13 +12,13 @@ const Breadcrumb = ({ value }) => {
     </Typography>,
   ];
   return (
-    <div style={{ height: 65 }}>
+    <div>
       <Breadcrumbs
         style={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          margin: "50px auto",
+          marginTop: "50px",
         }}
         separator="›"
         aria-label="breadcrumb"

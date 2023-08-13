@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import Breadcrumb from "../component/Breadcrumb";
 import { ErrorMessage, Form, Formik } from "formik";
 import * as Yup from "yup";
@@ -9,11 +9,12 @@ import authservice from "../services/authService";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import PageHeding from "../component/PageHeding";
-import AuthContext from "../context/authContext";
+import { useAuthContext } from "../context/authContext";
 
 const Login = () => {
-  const context = useContext(AuthContext);
-  const { setUser } = context;
+  const context = useAuthContext();
+  const { setUser, user } = context;
+  // console.log(userInfo);
   const navigate = useNavigate();
   const validationSchema = Yup.object().shape({
     email: Yup.string().email().required("Email is required"),
@@ -30,24 +31,13 @@ const Login = () => {
           toast.success("User Logged in Successfully!", {
             position: "bottom-right",
           });
-          // const result = res.data.result;
-          // const data = {
-          //   id: result.id,
-          //   email: result.email,
-          //   firstName: result.firstName,
-          //   lastName: result.lastName,
-          //   roleId: result.roleId,
-          //   role: result.role,
-          //   password: result.password,
-          // };
           setUser(res.data.result);
-          console.log(context.user);
+          console.log(user);
           navigate("/");
-          Cookies.set("auth_email", values.email);
         }
       })
       .catch((err) => {
-        toast.error("Login with right credentials!", {
+        toast.error(err.message, {
           position: "bottom-right",
         });
       });
