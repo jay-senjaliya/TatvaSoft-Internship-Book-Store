@@ -1,6 +1,6 @@
 import React from "react";
 
-const PageHeding = ({ heading }) => {
+const PageHeading = ({ heading }) => {
   return (
     <>
       <h1
@@ -28,4 +28,4 @@ const PageHeding = ({ heading }) => {
   );
 };
 
-export default PageHeding;
+export default PageHeading;

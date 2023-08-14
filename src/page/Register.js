@@ -1,6 +1,6 @@
 import React from "react";
 import Breadcrumb from "../component/Breadcrumb";
-import PageHeding from "../component/PageHeding";
+import PageHeading from "../component/PageHeading";
 import { useNavigate } from "react-router-dom";
 import { ErrorMessage, Form, Formik, useFormik } from "formik";
 import * as Yup from "yup";
@@ -52,7 +52,7 @@ const Register = () => {
   return (
     <>
       <Breadcrumb value="Create an Account" />
-      <PageHeding heading="Login or Create an Account" />
+      <PageHeading heading="Login or Create an Account" />
       <div
         className="container"
         style={{ marginTop: 50, fontFamily: "'Roboto', sans-serif" }}

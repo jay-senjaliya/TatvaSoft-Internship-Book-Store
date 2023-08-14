@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import logo from "../img/Tatvasoft-logo-profile.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, Cart4 } from "react-bootstrap-icons";
 import Cookies from "js-cookie";
@@ -7,6 +6,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import bookService from "../services/bookService";
 import { AuthContext, useAuthContext } from "../context/authContext";
+import siteLogo from "./../img/site-logo.svg";
 
 function Header() {
   const context = useAuthContext();
@@ -53,7 +53,7 @@ function Header() {
       >
         <div className="container">
           <Link className="navbar-brand" to="/">
-            <img alt="TatvaSoft" src={logo} style={{ height: 92 }} />
+            <img alt="TatvaSoft" src={siteLogo} style={{ height: 52 }} />
           </Link>
           <button
             className="navbar-toggler"
@@ -139,7 +139,7 @@ function Header() {
                   <li className="nav-item">
                     <Link
                       className="nav-link "
-                      to="/books-list"
+                      to="/books"
                       style={{ color: "#f14d54" }}
                     >
                       Books

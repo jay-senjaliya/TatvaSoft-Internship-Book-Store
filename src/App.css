@@ -43,6 +43,14 @@
   box-shadow: none !important;
 }
 
+/* .form-control[type = "file"] {
+  background-color: #f14d54;
+} */
+
+/* .form-label-file::after {
+  background-color: #f14d54;
+  color: #fff;
+} */
 /* .MuiPagination-root  button:focus {
     background-color: #f14d54 !important;
  } */

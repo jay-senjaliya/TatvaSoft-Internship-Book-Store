@@ -1,9 +1,5 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import "./App.css";
-import Home from "./component/Home";
-import Name from "./component/Name";
-import Price from "./component/Price";
-import Form from "./component/Form";
 import { ToastContainer } from "react-toastify";
 // import Register from "./page/Register";
 import Header from "./component/Header";
@@ -12,7 +8,9 @@ import Footer from "./component/Footer";
 import Register from "./page/Register";
 import { Auth, useAuthContext } from "./context/authContext";
 import Cookies from "js-cookie";
-import Books from "./page/BooksList";
+import BooksList from "./page/BooksList";
+import Books from "./page/Books";
+import EditBook from "./page/EditBook";
 
 function App() {
   const context = useAuthContext();
@@ -28,15 +26,24 @@ function App() {
           <Route exact path="/register" element={<Register />} />
           <Route
             exact
-            path="/books-list"
+            path="/books"
             element={user ? <Books /> : navigate("/login")}
           />
           <Route
             exact
             path="/"
-            element={user ? <Home /> : navigate("/login")}
+            element={user ? <BooksList /> : navigate("/login")}
           />
-          <Route exact path="/form" element={<Form />} />
+          <Route
+            exact
+            path="/add-book"
+            element={user ? <EditBook /> : navigate("/login")}
+          />
+          <Route
+            exact
+            path="/edit-book/:id"
+            element={user ? <EditBook /> : navigate("/login")}
+          />
         </Routes>
         <Footer />
         <ToastContainer />

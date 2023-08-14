@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../img/Tatvasoft-logo-profile.jpg";
+import siteLogo from "./../img/site-logo.svg";
 
 const Footer = () => {
   return (
@@ -15,7 +15,7 @@ const Footer = () => {
     >
       <img
         alt="logo"
-        src={logo}
+        src={siteLogo}
         style={{ height: 100, width: 200, marginBottom: 20 }}
       ></img>
       <p style={{ fontFamily: "'Roboto', sans-serif", color: "#666666" }}>

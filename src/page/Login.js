@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import authservice from "../services/authService";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import PageHeding from "../component/PageHeding";
+import PageHeading from "../component/PageHeading";
 import { useAuthContext } from "../context/authContext";
 
 const Login = () => {
@@ -45,7 +45,7 @@ const Login = () => {
   return (
     <>
       <Breadcrumb value="Login" />
-      <PageHeding heading="Login or Create an Account" />
+      <PageHeading heading="Login or Create an Account" />
       <div className="container" style={{ marginTop: 50, display: "flex" }}>
         <div style={{ width: "45%", marginRight: 50 }}>
           <h1
