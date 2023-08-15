@@ -22,12 +22,10 @@ export const AuthContext = createContext(initialState);
 export const Auth = ({ children }) => {
   const [userData, setUserData] = useState(initialValues);
   const navigate = useNavigate();
-  // console.log(userData);
 
   const setUser = (data) => {
     localStorage.setItem("userInfo", JSON.stringify(data));
     setUserData(data);
-    console.log(data);
   };
 
   useEffect(() => {
@@ -39,6 +37,7 @@ export const Auth = ({ children }) => {
     } else {
       setUserData(data);
     }
+    // eslint-disable-next-line
   }, []);
 
   const signOut = () => {
@@ -59,9 +58,3 @@ export const Auth = ({ children }) => {
 export const useAuthContext = () => {
   return useContext(AuthContext);
 };
-
-// import React from "react";
-
-// const AuthContext = React.createContext();
-
-// export default AuthContext;

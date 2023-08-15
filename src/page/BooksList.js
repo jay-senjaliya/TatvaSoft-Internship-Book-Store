@@ -19,7 +19,6 @@ const BooksList = () => {
     items: [],
     totalItems: 0,
   });
-  // const [books, setBooks] = useState([]);
   const [categories, setCategories] = useState();
   const [sortBy, setSortBy] = useState("");
   const [filters, setFilters] = useState({
@@ -42,8 +41,6 @@ const BooksList = () => {
 
   const searchAllBooks = async (filters) => {
     await bookService.GetAllBooks(filters).then((res) => {
-      // console.log("response", res);
-      // console.log("response-filter", filters);
       setBookResponse(res.data.result);
     });
   };
@@ -57,29 +54,19 @@ const BooksList = () => {
   };
 
   const books = useMemo(() => {
-    // console.log("books-response", bookResponse.items);
     const bookList = [...bookResponse.items];
-    // console.log("books-list", bookList);
     if (bookList) {
-      // console.log("books enter");
-      // bookList.forEach((element) => {
-      //   element.category = categories.find(
-      //     (a) => a.id === element.categoryId
-      //   )?.name;
-      // });
       return bookList;
     }
     return [];
+    // eslint-disable-next-line
   }, [categories, bookResponse]);
-
-  // console.log("books", books);
 
   const handleSort = (e) => {
     setSortBy(e.target.value);
     const bookList = [...bookResponse.items];
 
     bookList.sort((a, b) => {
-      // console.log(a, b);
       if (a.name < b.name) {
         return e.target.value === "a-z" ? -1 : 1;
       }
@@ -91,22 +78,8 @@ const BooksList = () => {
     setBookResponse({ ...bookResponse, items: bookList });
   };
 
-  // const Getbooks = async () => {
-  //   await bookService.GetAllBooks().then((res) => {
-  //     if (res && res.status === 200) {
-  //       setBooks(res.data.result);
-  //     }
-  //   });
-  // };
-
-  // console.log(bookResponse);
-
-  // console.log(sortBy);
-  // console.log(filters);
-
   return (
     <>
-      {/* <Breadcrumb value="Book Listing" /> */}
       <PageHeading heading="Book Listing " />
       <div
         className="book-list-page  "
@@ -193,8 +166,6 @@ const BooksList = () => {
         <div
           style={{
             display: "flex",
-            // alignItems: "center",
-            // justifyContent: "center",
             maxWidth: 1120,
             flexWrap: "wrap",
             gap: 30,

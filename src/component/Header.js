@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Search, Cart4 } from "react-bootstrap-icons";
-import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import bookService from "../services/bookService";
-import { AuthContext, useAuthContext } from "../context/authContext";
+import { useAuthContext } from "../context/authContext";
 import siteLogo from "./../img/site-logo.svg";
 
 function Header() {
@@ -14,17 +13,9 @@ function Header() {
   const [bookSearch, setBookSearch] = useState("");
   const [searchResultList, setSearchResultList] = useState([]);
   const [loading, setLoading] = useState();
-  const navigate = useNavigate();
-  // console.log(user);
   const userInfo = user.email ? user : null;
-  // const email = Cookies.get("auth_email");
-  // console.log(email);
-  // React.useEffect(() => {
-  //   navigate("/");
-  // }, [user]);
 
   const handleLogOut = () => {
-    // Cookies.remove("auth_email");
     toast.success("User Logged out successfully!", {
       position: "bottom-right",
     });
@@ -40,18 +31,17 @@ function Header() {
       handleSearch();
     }, 500);
     return () => clearTimeout(timer);
+    // eslint-disable-next-line
   }, [bookSearch]);
 
   const handleSearch = async () => {
     const payload = bookSearch;
-    // console.log(bookSearch);
     await bookService
       .SearchBook(payload)
       .then((res) => {
         setSearchResultList(res.data.result);
       })
       .catch((err) => {
-        // console.log(err.response);
         setSearchResultList([]);
       });
   };

@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import authservice from "../services/authService";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import PageHeading from "../component/PageHeading";
 import { useAuthContext } from "../context/authContext";
 
@@ -37,7 +36,7 @@ const Login = () => {
         }
       })
       .catch((err) => {
-        toast.error(err.message, {
+        toast.error(err.response.data.error, {
           position: "bottom-right",
         });
       });

@@ -1,26 +1,23 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import "./App.css";
 import { ToastContainer } from "react-toastify";
-// import Register from "./page/Register";
 import Header from "./component/Header";
 import Login from "./page/Login";
 import Footer from "./component/Footer";
 import Register from "./page/Register";
 import { Auth, useAuthContext } from "./context/authContext";
-import Cookies from "js-cookie";
 import BooksList from "./page/BooksList";
 import Books from "./page/Books";
 import EditBook from "./page/EditBook";
 import Users from "./page/Users";
 import EditUser from "./page/EditUser";
-// import EditCategory from "./page/EditCategory";
-// import Category from "./page/Category";
-// import UpdateProfile from "./page/UpdateProfile";
+import EditCategory from "./page/EditCategory";
+import Category from "./page/Category";
+import UpdateProfile from "./page/UpdateProfile";
 
 function App() {
   const context = useAuthContext();
   const { user } = context;
-  // console.log(user);
   const navigate = useNavigate();
   return (
     <Auth>
@@ -64,7 +61,7 @@ function App() {
             path="/edit-user/:id"
             element={user ? <EditUser /> : navigate("/login")}
           />
-          {/* <Route
+          <Route
             exact
             path="/category"
             element={user ? <Category /> : navigate("/login")}
@@ -83,7 +80,7 @@ function App() {
             exact
             path="/update-profile"
             element={user ? <UpdateProfile /> : navigate("/login")}
-          /> */}
+          />
         </Routes>
         <Footer />
         <ToastContainer />

@@ -2,7 +2,7 @@ import React from "react";
 import Breadcrumb from "../component/Breadcrumb";
 import PageHeading from "../component/PageHeading";
 import { useNavigate } from "react-router-dom";
-import { ErrorMessage, Form, Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FormHelperText } from "@mui/material";
 import authservice from "../services/authService";
@@ -44,7 +44,7 @@ const Register = () => {
           }
         })
         .catch((err) => {
-          toast.error(err.message, { position: "bottom-right" });
+          toast.error(err.response.data.error, { position: "bottom-right" });
         });
     },
   });

@@ -32,7 +32,7 @@ const EditBook = () => {
         setCategories(res.data.result);
       }
     });
-    // GetAllCategories();
+    // eslint-disable-next-line
   }, [id]);
 
   const validationSchema = Yup.object().shape({
@@ -106,7 +106,7 @@ const EditBook = () => {
         }
       })
       .catch((err) => {
-        toast.error(err.message, { position: "bottom-right" });
+        toast.error(err.response.data.error, { position: "bottom-right" });
       });
   };
   // console.log("category", categories);
@@ -125,7 +125,7 @@ const EditBook = () => {
         }
       })
       .catch((err) => {
-        toast.error(err.message, { position: "bottom-right" });
+        toast.error(err.response.data.error, { position: "bottom-right" });
       });
   };
 

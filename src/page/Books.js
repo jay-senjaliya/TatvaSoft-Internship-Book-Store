@@ -10,7 +10,6 @@ import {
   TableRow,
 } from "@mui/material";
 import bookService from "../services/bookService";
-import categoryService from "../services/categoryService";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -32,19 +31,6 @@ const Books = () => {
     items: [],
     totalItems: 0,
   });
-  // const [categories, setCategories] = useState();
-
-  // useEffect(() => {
-  //   GetAllCategories();
-  // }, []);
-
-  // const GetAllCategories = async () => {
-  //   await categoryService.GetAll().then((res) => {
-  //     if (res && res.status === 200) {
-  //       setCategories(res.data.result);
-  //     }
-  //   });
-  // };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -56,8 +42,6 @@ const Books = () => {
 
   const searchAllBooks = async (filters) => {
     await bookService.GetAllBooks(filters).then((res) => {
-      // console.log("response", res);
-      // console.log("response-filter", filters);
       setBookRecords(res.data.result);
     });
   };
@@ -75,7 +59,7 @@ const Books = () => {
         }
       })
       .catch((err) => {
-        toast.error(err.message, { position: "bottom-right" });
+        toast.error(err.response.data.error, { position: "bottom-right" });
       });
   };
 
@@ -203,53 +187,9 @@ const Books = () => {
                   </TableRow>
                 )}
               </TableBody>
-              {/* <TableFooter>
-                <TableRow>
-                  <TablePagination
-                    rowsPerPageOptions={[
-                      5,
-                      10,
-                      25,
-                      { label: "All", value: -1 },
-                    ]}
-                    colSpan={3}
-                    count={5}
-                    rowsPerPage={5}
-                    page={4}
-                    SelectProps={{
-                      inputProps: {
-                        "aria-label": "rows per page",
-                      },
-                      native: true,
-                    }}
-                    onPageChange={(e, newPage) => {
-                      setFilters({ ...filters, pageIndex: newPage });
-                    }}
-                    onRowsPerPageChange={(e, newSize) => {
-                      setFilters({ ...filters, pageSize: newSize });
-                    }}
-                    ActionsComponent={(e, newSize) => {
-                      setFilters({ ...filters, pageSize: newSize });
-                    }}
-                  />
-                </TableRow>
-              </TableFooter> */}
             </Table>
           </TableContainer>
           <div style={{ margin: "40px auto 80px auto" }}>
-            {/* <Pagination
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-              color="error"
-              count={bookRecords.totalPages}
-              page={filters.pageIndex}
-              onChange={(e, newPage) => {
-                setFilters({ ...filters, pageIndex: newPage });
-              }}
-            /> */}
             <TablePagination
               rowsPerPageOptions={[2, 5, 10, 100]}
               component="div"

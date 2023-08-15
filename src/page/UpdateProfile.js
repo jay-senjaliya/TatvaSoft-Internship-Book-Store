@@ -1,119 +1,97 @@
 import React, { useEffect, useState } from "react";
 import PageHeading from "../component/PageHeading";
 import { ErrorMessage, Form, Formik } from "formik";
-import * as Yup from "yup";
 import { FormHelperText } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../context/authContext";
+import userService from "../services/userService";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import userService from "../services/userService";
 
-const EditUser = () => {
+const UpdateProfile = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const context = useAuthContext();
+  const { user, setUser } = context;
   const initialValues = {
-    id: 0,
-    email: "",
-    lastName: "",
     firstName: "",
-    roleId: 3,
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   };
   const [initialValuesState, setInitialValuesState] = useState(initialValues);
-  const [roles, setRoles] = useState();
-  const [user, setUser] = useState();
 
   useEffect(() => {
-    getRoles();
-    // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
-    if (id) {
-      GetUser();
-    }
-    // eslint-disable-next-line
-  }, [id]);
-
-  useEffect(() => {
-    if (user && roles.length) {
-      const roleId = roles.find((role) => role.name === user?.role)?.id;
+    if (user) {
       setInitialValuesState({
-        id: user.id,
-        email: user.email,
-        lastName: user.lastName,
+        ...initialValues,
         firstName: user.firstName,
-        roleId,
-        password: user.password,
+        lastName: user.lastName,
+        email: user.email,
       });
+      console.log("object", initialValuesState);
     }
-  }, [user, roles]);
+    // eslint-disable-next-line
+  }, [user]);
 
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name Required!"),
-    lastName: Yup.string().min(0).required("Last Name Required!"),
-    email: Yup.string().email().required("Email Required!"),
-    roleId: Yup.number().required("Select Role"),
+    lastName: Yup.string().required("Last Name Required!"),
+    email: Yup.string().email().required("Email required!"),
+    password: Yup.string().min(8),
+    confirmPassword: Yup.string().oneOf(
+      [Yup.ref("password"), null],
+      "Passwords must match"
+    ),
   });
 
-  const getRoles = async () => {
-    await userService.GetAllRoles().then((res) => {
-      if (res && res.status === 200) {
-        setRoles(res.data.result);
-        console.log("object", roles);
-      }
-    });
-  };
-
-  const GetUser = async () => {
-    await userService.GetUserById(id).then((res) => {
-      if (res && res.status === 200) {
-        setUser(res.data.result);
-      }
-    });
-  };
-
-  const handleUpdate = async (values) => {
-    const updatedValue = {
+  const handlesubmit = async (values) => {
+    const password = values.password ? values.password : user.password;
+    delete values.password;
+    delete values.confirmPassword;
+    const updatedVale = {
       ...values,
-      role: roles.find((r) => r.id === values.roleId).name,
+      password: password,
+      id: user.id,
+      role: user.role,
+      roleId: user.roleId,
     };
     await userService
-      .UpdateUser(updatedValue)
+      .UpdateUser(updatedVale)
       .then((res) => {
         if (res && res.status === 200) {
-          toast.success("User Updated Successfully!", {
-            position: "bottom-right",
-          });
-          navigate("/users");
+          setUser(res.data.result);
+          toast.success("User Profile Updated!", { position: "bottom-right" });
         }
       })
       .catch((err) => {
+        console.log(err);
         toast.error(err.response.data.error, { position: "bottom-right" });
       });
   };
 
   return (
     <>
-      <PageHeading heading={id ? "Edit User" : "Add User"} />
+      <PageHeading heading="Update Profile" />
       <div
-        className="edit-add-user container"
+        className="update-profile-page container"
         style={{
           marginTop: 50,
-          fontFamily: "'Roboto', sans-serif",
-          color: "#838383",
           marginBottom: 80,
+          fontFamily: "'Roboto', sans-serif",
         }}
       >
         <Formik
           initialValues={initialValuesState}
           validationSchema={validationSchema}
           enableReinitialize={true}
-          onSubmit={(values) => handleUpdate(values)}
+          onSubmit={(values) => handlesubmit(values)}
         >
-          {({ values, handleBlur, errors, setFieldValue, setFieldError }) => {
+          {({ values, setFieldValue, errors, handleBlur }) => {
             return (
               <Form>
-                <div className="d-flex">
+                <div className="d-flex" style={{ marginTop: 35 }}>
                   <div className="w-50 mx-2">
                     <label
                       htmlFor="firstName"
@@ -215,7 +193,7 @@ const EditUser = () => {
                   </div>
                   <div className="w-50 mx-2">
                     <label
-                      htmlFor="roleId"
+                      htmlFor="password"
                       className="form-label"
                       style={{
                         color: "#212121",
@@ -223,37 +201,64 @@ const EditUser = () => {
                         margin: "0px auto 15px 0px",
                       }}
                     >
-                      Role<sup>*</sup>
+                      New Password<sup>*</sup>
                     </label>
-                    <select
-                      className="form-select"
-                      aria-label="Default select example"
-                      id="roleId"
-                      name="roleId"
-                      error={errors.roleId}
+                    <input
+                      className="form-control"
+                      id="password"
+                      name="password"
+                      type="password"
+                      error={errors.password}
                       onBlur={handleBlur}
-                      value={values.roleId}
-                      onChange={(e) => setFieldValue("roleId", e.target.value)}
+                      value={values.password}
+                      onChange={(e) =>
+                        setFieldValue("password", e.target.value)
+                      }
                       style={{
                         borderRadius: 0,
                         color: "#212121",
                         fontFamily: "'Roboto', sans-serif",
                         marginBottom: 0,
                       }}
-                    >
-                      <option value="" hidden></option>
-                      {roles?.map((role) => {
-                        return (
-                          <option value={role.id} key={role.id}>
-                            {role.name}
-                          </option>
-                        );
-                      })}
-                    </select>
+                    />
                     <FormHelperText error>
-                      <ErrorMessage name="roleId"></ErrorMessage>
+                      <ErrorMessage name="password"></ErrorMessage>
                     </FormHelperText>
                   </div>
+                </div>
+                <div className="w-50 mx-2" style={{ marginTop: 35 }}>
+                  <label
+                    htmlFor="confirmPassword"
+                    className="form-label"
+                    style={{
+                      color: "#212121",
+                      fontFamily: "'Roboto', sans-serif",
+                      margin: "0px auto 15px 0px",
+                    }}
+                  >
+                    Confirm Password<sup>*</sup>
+                  </label>
+                  <input
+                    className="form-control"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    error={errors.confirmPassword}
+                    onBlur={handleBlur}
+                    value={values.confirmPassword}
+                    onChange={(e) =>
+                      setFieldValue("confirmPassword", e.target.value)
+                    }
+                    style={{
+                      borderRadius: 0,
+                      color: "#212121",
+                      fontFamily: "'Roboto', sans-serif",
+                      marginBottom: 0,
+                    }}
+                  />
+                  <FormHelperText error>
+                    <ErrorMessage name="confirmPassword"></ErrorMessage>
+                  </FormHelperText>
                 </div>
                 <div style={{ marginTop: 35, height: 40 }}>
                   <button
@@ -278,7 +283,7 @@ const EditUser = () => {
                       border: "none",
                       borderRadius: 2,
                     }}
-                    onClick={() => navigate("/users")}
+                    onClick={() => navigate("/")}
                   >
                     Cancel
                   </button>
@@ -287,9 +292,13 @@ const EditUser = () => {
             );
           }}
         </Formik>
+
+        <div></div>
+        <div></div>
+        <div></div>
       </div>
     </>
   );
 };
 
-export default EditUser;
+export default UpdateProfile;
