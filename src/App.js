@@ -11,6 +11,11 @@ import Cookies from "js-cookie";
 import BooksList from "./page/BooksList";
 import Books from "./page/Books";
 import EditBook from "./page/EditBook";
+import Users from "./page/Users";
+import EditUser from "./page/EditUser";
+// import EditCategory from "./page/EditCategory";
+// import Category from "./page/Category";
+// import UpdateProfile from "./page/UpdateProfile";
 
 function App() {
   const context = useAuthContext();
@@ -44,6 +49,41 @@ function App() {
             path="/edit-book/:id"
             element={user ? <EditBook /> : navigate("/login")}
           />
+          <Route
+            exact
+            path="/users"
+            element={user ? <Users /> : navigate("/login")}
+          />
+          <Route
+            exact
+            path="/add-user"
+            element={user ? <EditUser /> : navigate("/login")}
+          />
+          <Route
+            exact
+            path="/edit-user/:id"
+            element={user ? <EditUser /> : navigate("/login")}
+          />
+          {/* <Route
+            exact
+            path="/category"
+            element={user ? <Category /> : navigate("/login")}
+          />
+          <Route
+            exact
+            path="/add-category"
+            element={user ? <EditCategory /> : navigate("/login")}
+          />
+          <Route
+            exact
+            path="/edit-category/:id"
+            element={user ? <EditCategory /> : navigate("/login")}
+          />
+          <Route
+            exact
+            path="/update-profile"
+            element={user ? <UpdateProfile /> : navigate("/login")}
+          /> */}
         </Routes>
         <Footer />
         <ToastContainer />

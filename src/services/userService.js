@@ -1,13 +1,13 @@
 import axios from "axios";
 
-const BASE_URL = "https://book-e-sell-node-api.vercel.app/api/book";
+const BASE_URL = "https://book-e-sell-node-api.vercel.app/api/user";
 
 class BookService {
-  SearchBook = async (payload) => {
-    return axios.get(`${BASE_URL}/search?keyword=${payload}`);
-  };
+  //   SearchBook = async (payload) => {
+  //     return axios.get(`${BASE_URL}/search?keyword=${payload}`);
+  //   };
 
-  GetAllBooks = async (params) => {
+  GetAllUsers = async (params) => {
     return axios.get(`${BASE_URL}`, { params });
   };
 
@@ -15,15 +15,19 @@ class BookService {
     return axios.post(BASE_URL, payload);
   };
 
-  GetBookById = async (id) => {
+  GetUserById = async (id) => {
     return axios.get(`${BASE_URL}/byId?id=${id}`);
   };
 
-  UpdateBook = async (payload) => {
+  GetAllRoles = async () => {
+    return axios.get(`${BASE_URL}/roles`);
+  };
+
+  UpdateUser = async (payload) => {
     return axios.put(BASE_URL, payload);
   };
 
-  DeleteBook = async (id) => {
+  DeleteUser = async (id) => {
     return axios.delete(`${BASE_URL}?id=${id}`);
   };
 }

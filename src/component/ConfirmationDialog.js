@@ -29,6 +29,7 @@ const ConfirmationDialog = (props) => {
           type="button"
           onClick={() => onClose()}
           className="btn pink-btn"
+          style={{ backgroundColor: "#f14d54", color: "#FFFFFF" }}
         >
           Cancel
         </Button>
@@ -38,6 +39,7 @@ const ConfirmationDialog = (props) => {
           }}
           autoFocus
           className="btn green-btn"
+          style={{ backgroundColor: "#80BF32", color: "#FFFFFF" }}
         >
           Ok
         </Button>

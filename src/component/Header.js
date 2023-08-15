@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, Cart4 } from "react-bootstrap-icons";
 import Cookies from "js-cookie";
@@ -13,6 +13,7 @@ function Header() {
   const { signOut, user } = context;
   const [bookSearch, setBookSearch] = useState("");
   const [searchResultList, setSearchResultList] = useState([]);
+  const [loading, setLoading] = useState();
   const navigate = useNavigate();
   // console.log(user);
   const userInfo = user.email ? user : null;
@@ -30,6 +31,17 @@ function Header() {
     signOut();
   };
 
+  useEffect(() => {
+    if (bookSearch.length === 0) {
+      document.getElementById("overlay").style.display = "none";
+    }
+    const timer = setTimeout(() => {
+      setLoading(false);
+      handleSearch();
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [bookSearch]);
+
   const handleSearch = async () => {
     const payload = bookSearch;
     // console.log(bookSearch);
@@ -37,12 +49,10 @@ function Header() {
       .SearchBook(payload)
       .then((res) => {
         setSearchResultList(res.data.result);
-        document.getElementById("overlay").style.display = "block";
       })
       .catch((err) => {
         // console.log(err.response);
         setSearchResultList([]);
-        document.getElementById("overlay").style.display = "none";
       });
   };
   return (
@@ -111,7 +121,7 @@ function Header() {
                   <li className="nav-item">
                     <Link
                       className="nav-link "
-                      to="#"
+                      to="/users"
                       style={{ color: "#f14d54" }}
                     >
                       Users
@@ -125,7 +135,7 @@ function Header() {
                   <li className="nav-item">
                     <Link
                       className="nav-link "
-                      to="#"
+                      to="/category"
                       style={{ color: "#f14d54" }}
                     >
                       Categories
@@ -153,7 +163,7 @@ function Header() {
                   <li className="nav-item">
                     <Link
                       className="nav-link "
-                      to="#"
+                      to="/update-profile"
                       style={{ color: "#f14d54" }}
                     >
                       Update Profile
@@ -210,7 +220,11 @@ function Header() {
               aria-label="Search"
               style={{ width: 422, height: 40, color: "rgb(33,33,33)" }}
               value={bookSearch}
-              onChange={(e) => setBookSearch(e.target.value)}
+              onChange={(e) => {
+                document.getElementById("overlay").style.display = "block";
+                setLoading(true);
+                setBookSearch(e.target.value);
+              }}
             />
             <div
               id="overlay"
@@ -227,11 +241,15 @@ function Header() {
                 overflow: "auto",
               }}
             >
-              {searchResultList.length === 0 && (
-                <p style={{ margin: "5px auto 0px 0px" }}>No product found</p>
+              {!loading && searchResultList.length === 0 && (
+                <p style={{ margin: "5px auto 0px 0px", color: "#f14d54" }}>
+                  No product found
+                </p>
               )}
-              {!searchResultList && (
-                <p style={{ margin: "15px auto 0px 0px" }}>Loading....</p>
+              {loading && (
+                <p style={{ margin: "15px auto 0px 0px", color: "#f14d54" }}>
+                  Loading....
+                </p>
               )}
               {searchResultList.map((book) => {
                 return (

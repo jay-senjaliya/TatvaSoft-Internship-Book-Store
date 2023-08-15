@@ -4,7 +4,7 @@ import { ErrorMessage, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { FormHelperText } from "@mui/material";
 import categoryService from "../services/categoryService";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import bookService from "../services/bookService";
@@ -27,7 +27,7 @@ const EditBook = () => {
     if (id) {
       GetBook();
     }
-    categoryService.GetAll().then((res) => {
+    categoryService.GetAllCategory().then((res) => {
       if (res && res.status === 200) {
         setCategories(res.data.result);
       }
@@ -49,7 +49,7 @@ const EditBook = () => {
         // setBook(res.data.result);
         // console.log("object", res.data.result);
         const book = res.data.result;
-        console.log("object", book);
+        // console.log("object", book);
         setInitialValuesState({
           id: book.id,
           name: book.name,
@@ -112,7 +112,7 @@ const EditBook = () => {
   // console.log("category", categories);
 
   const handleUpdate = async (values) => {
-    console.log("object", initialValuesState);
+    // console.log("object", initialValuesState);
 
     await bookService
       .UpdateBook(values)

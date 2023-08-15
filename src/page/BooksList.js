@@ -49,7 +49,7 @@ const BooksList = () => {
   };
 
   const GetAllCategories = async () => {
-    await categoryService.GetAll().then((res) => {
+    await categoryService.GetAllCategory().then((res) => {
       if (res && res.status === 200) {
         setCategories(res.data.result);
       }
