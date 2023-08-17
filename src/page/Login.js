@@ -31,7 +31,7 @@ const Login = () => {
             position: "bottom-right",
           });
           setUser(res.data.result);
-          console.log(user);
+          // console.log(user);
           navigate("/");
         }
       })
@@ -165,6 +165,7 @@ const Login = () => {
                       className="form-control"
                       id="email"
                       name="email"
+                      type="text"
                       error={errors.email}
                       onBlur={handleBlur}
                       value={values.email}

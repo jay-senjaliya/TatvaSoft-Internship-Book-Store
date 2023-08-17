@@ -10,8 +10,17 @@ import {
 } from "@mui/material";
 import bookService from "../services/bookService";
 import categoryService from "../services/categoryService";
+import { useCartContext } from "../context/cartContext";
+import { useAuthContext } from "../context/authContext";
+import cartService from "../services/cartService";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const BooksList = () => {
+  const cartContext = useCartContext();
+  const context = useAuthContext();
+  const { user } = context;
+  const { cartData, updateCart } = cartContext;
   const [bookResponse, setBookResponse] = useState({
     pageIndex: 0,
     pageSize: 10,
@@ -76,6 +85,29 @@ const BooksList = () => {
       return 0;
     });
     setBookResponse({ ...bookResponse, items: bookList });
+  };
+
+  const addItem = (book) => {
+    const payload = {
+      bookId: book.id,
+      userId: user.id,
+      quantity: 1,
+    };
+    cartService
+      .AddCartItem(payload)
+      .then((res) => {
+        if (res && res.status === 200) {
+          updateCart();
+          toast.success("Item added successfully!!", {
+            position: "bottom-right",
+          });
+        }
+      })
+      .catch((err) => {
+        toast.error(err.response.data.error, {
+          position: "bottom-right",
+        });
+      });
   };
 
   return (
@@ -250,6 +282,7 @@ const BooksList = () => {
                       margin: "2px 3px 8px 3px",
                       bottom: 8,
                     }}
+                    onClick={() => addItem(book)}
                   >
                     ADD TO CART
                   </button>

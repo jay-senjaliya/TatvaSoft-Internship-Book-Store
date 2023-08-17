@@ -111,6 +111,7 @@ const Register = () => {
                 <input
                   className="form-control"
                   id="firstName"
+                  type="text"
                   name="firstName"
                   {...formik.getFieldProps("firstName")}
                   style={{
@@ -145,6 +146,7 @@ const Register = () => {
                   className="form-control"
                   id="lastName"
                   name="lastName"
+                  type="text"
                   {...formik.getFieldProps("lastName")}
                   style={{
                     borderRadius: 0,
@@ -177,6 +179,7 @@ const Register = () => {
               className="form-control"
               id="email"
               name="email"
+              type="text"
               {...formik.getFieldProps("email")}
               style={{
                 borderRadius: 0,

@@ -123,6 +123,7 @@ const EditCategory = () => {
                       className="form-control"
                       id="name"
                       name="name"
+                      type="text"
                       error={errors.name}
                       onBlur={handleBlur}
                       value={values.name}

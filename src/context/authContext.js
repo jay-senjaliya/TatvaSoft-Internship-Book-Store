@@ -28,6 +28,16 @@ export const Auth = ({ children }) => {
     setUserData(data);
   };
 
+  // useEffect(() => {
+  //   // const data = JSON.parse(localStorage.getItem("userInfo"));
+
+  //   if (!userData) {
+  //     setUserData(initialValues);
+  //     navigate("/login");
+  //   }
+  //   // eslint-disable-next-line
+  // }, []);
+
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("userInfo"));
 

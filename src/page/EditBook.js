@@ -171,6 +171,7 @@ const EditBook = () => {
                     </label>
                     <input
                       className="form-control"
+                      type="text"
                       id="name"
                       name="name"
                       error={errors.name}

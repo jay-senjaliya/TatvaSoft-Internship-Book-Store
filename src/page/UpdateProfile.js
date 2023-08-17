@@ -108,6 +108,7 @@ const UpdateProfile = () => {
                       className="form-control"
                       id="firstName"
                       name="firstName"
+                      type="text"
                       error={errors.firstName}
                       onBlur={handleBlur}
                       value={values.firstName}
@@ -141,6 +142,7 @@ const UpdateProfile = () => {
                       className="form-control"
                       id="lastName"
                       name="lastName"
+                      type="text"
                       error={errors.lastName}
                       onBlur={handleBlur}
                       value={values.lastName}
@@ -176,6 +178,7 @@ const UpdateProfile = () => {
                       className="form-control"
                       id="email"
                       name="email"
+                      type="text"
                       error={errors.email}
                       onBlur={handleBlur}
                       value={values.email}

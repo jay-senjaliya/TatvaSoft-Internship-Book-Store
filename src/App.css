@@ -43,6 +43,14 @@
   box-shadow: none !important;
 }
 
+.cart-remove-btn:hover {
+  cursor: pointer;
+}
+
+.globalsearch-add-to-cart:hover {
+  cursor: pointer;
+}
+
 /* .form-control[type = "file"] {
   background-color: #f14d54;
 } */

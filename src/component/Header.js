@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Search, Cart4 } from "react-bootstrap-icons";
+import { Link, useNavigate } from "react-router-dom";
+import { Search, Cart4, CartDash } from "react-bootstrap-icons";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import bookService from "../services/bookService";
 import { useAuthContext } from "../context/authContext";
 import siteLogo from "./../img/site-logo.svg";
+import { useCartContext } from "../context/cartContext";
+import cartService from "../services/cartService";
 
 function Header() {
   const context = useAuthContext();
+  const cartContext = useCartContext();
   const { signOut, user } = context;
+  const { cartData, updateCart } = cartContext;
+  const [totalCartItem, setTotalCartItem] = useState(0);
   const [bookSearch, setBookSearch] = useState("");
   const [searchResultList, setSearchResultList] = useState([]);
   const [loading, setLoading] = useState();
   const userInfo = user.email ? user : null;
+  const navigate = useNavigate();
 
   const handleLogOut = () => {
     toast.success("User Logged out successfully!", {
@@ -22,15 +28,44 @@ function Header() {
     signOut();
   };
 
+  const addItem = (book) => {
+    const payload = {
+      bookId: book.id,
+      userId: user.id,
+      quantity: 1,
+    };
+    cartService
+      .AddCartItem(payload)
+      .then((res) => {
+        if (res && res.status === 200) {
+          updateCart();
+          toast.success("Item added successfully!!", {
+            position: "bottom-right",
+          });
+        }
+      })
+      .catch((err) => {
+        toast.error(err.response.data.error, {
+          position: "bottom-right",
+        });
+      });
+  };
+
+  useEffect(() => {
+    setTotalCartItem(cartData.length);
+  }, [cartContext]);
+
   useEffect(() => {
     if (bookSearch.length === 0) {
       document.getElementById("overlay").style.display = "none";
     }
-    const timer = setTimeout(() => {
-      setLoading(false);
-      handleSearch();
-    }, 500);
-    return () => clearTimeout(timer);
+    if (bookSearch.length) {
+      const timer = setTimeout(() => {
+        setLoading(false);
+        handleSearch();
+      }, 500);
+      return () => clearTimeout(timer);
+    }
     // eslint-disable-next-line
   }, [bookSearch]);
 
@@ -45,6 +80,7 @@ function Header() {
         setSearchResultList([]);
       });
   };
+
   return (
     <>
       <nav
@@ -172,10 +208,11 @@ function Header() {
               marginRight: 20,
               fontFamily: "'Roboto', sans-serif",
             }}
+            onClick={() => navigate("cart")}
           >
             <Cart4 color="#f14d54" size={20} />
             <span style={{ margin: 2, marginRight: 4, color: "#f14d54" }}>
-              0
+              {totalCartItem}
             </span>
             Cart
           </button>
@@ -310,7 +347,11 @@ function Header() {
                       >
                         {book.price}
                       </p>
-                      <p style={{ marginTop: 0, color: "#f14d54" }}>
+                      <p
+                        className="globalsearch-add-to-cart"
+                        style={{ marginTop: 0, color: "#f14d54" }}
+                        onClick={() => addItem(book)}
+                      >
                         Add to Cart
                       </p>
                     </div>
